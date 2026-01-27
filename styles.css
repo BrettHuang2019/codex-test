@@ -126,6 +126,10 @@ h1 {
   background: linear-gradient(120deg, #ffb703, #fb5607, #ff006e);
 }
 
+.swatch.noir {
+  background: linear-gradient(120deg, #0b1022, #2f5dff, #ff5edb);
+}
+
 .swatch.terminal {
   background: linear-gradient(120deg, #0a2e1b, #1f7a4c, #7df9a1);
 }
@@ -220,6 +224,44 @@ html[data-theme="terminal"] body {
   font-family: "IBM Plex Mono", "JetBrains Mono", monospace;
   background: radial-gradient(circle at top, #0e2c1b 0%, #08140d 55%, #040807 100%);
   color: #d8ffe4;
+}
+
+html[data-theme="noir"] body {
+  font-family: "Archivo", "Helvetica Neue", sans-serif;
+  background: radial-gradient(circle at top, #1c2747 0%, #0b1022 45%, #05070f 100%);
+  color: #eef3ff;
+}
+
+html[data-theme="noir"] .ambient {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(93, 168, 255, 0.25), transparent 55%),
+    radial-gradient(circle at 80% 10%, rgba(255, 94, 219, 0.2), transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(46, 255, 223, 0.15), transparent 60%);
+}
+
+html[data-theme="noir"] .logo,
+html[data-theme="noir"] .status,
+html[data-theme="noir"] .theme-card,
+html[data-theme="noir"] .hero,
+html[data-theme="noir"] .cta button {
+  border-color: #58c9ff;
+}
+
+html[data-theme="noir"] .logo {
+  background: #0b1022;
+  color: #7ef9ff;
+}
+
+html[data-theme="noir"] .status,
+html[data-theme="noir"] .theme-card,
+html[data-theme="noir"] .hero {
+  background: rgba(11, 16, 34, 0.88);
+  box-shadow: 0 22px 50px rgba(10, 20, 45, 0.55);
+}
+
+html[data-theme="noir"] .cta button {
+  background: linear-gradient(120deg, #5a7bff, #7ef9ff, #ff6adf);
+  color: #07101f;
 }
 
 html[data-theme="terminal"] .ambient {

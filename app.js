@@ -1,4 +1,4 @@
-const themes = ["brutal", "terminal", "glass", "editorial"];
+const themes = ["brutal", "noir", "terminal", "glass", "editorial"];
 const root = document.documentElement;
 const cards = document.querySelectorAll(".theme-card");
 const statusEl = document.getElementById("net-status");
@@ -16,6 +16,8 @@ function themeColor(theme) {
   switch (theme) {
     case "terminal":
       return "#0a1b12";
+    case "noir":
+      return "#0b1022";
     case "glass":
       return "#c7f0ff";
     case "editorial":
