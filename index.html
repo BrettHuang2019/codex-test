@@ -80,6 +80,118 @@
         </div>
       </section>
 
+      <section class="components" aria-label="UI components">
+        <div class="components-head">
+          <div>
+            <h2>Component sampler</h2>
+            <p>Basic UI blocks for smoke testing layouts and styles.</p>
+          </div>
+          <div class="pill-row" role="list">
+            <span class="pill" role="listitem">Forms</span>
+            <span class="pill" role="listitem">Status</span>
+            <span class="pill" role="listitem">Controls</span>
+          </div>
+        </div>
+        <div class="component-grid">
+          <article class="component-card">
+            <h3>Progress</h3>
+            <div class="progress">
+              <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="64">
+                <span class="progress-fill" style="--value: 64%;"></span>
+              </div>
+              <div class="progress-meta">Processing 64%</div>
+            </div>
+            <div class="progress">
+              <div class="progress-track alt" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="32">
+                <span class="progress-fill" style="--value: 32%;"></span>
+              </div>
+              <div class="progress-meta">Queue 32%</div>
+            </div>
+          </article>
+
+          <article class="component-card">
+            <h3>Inputs</h3>
+            <label class="field">
+              <span>Display name</span>
+              <input type="text" placeholder="Type here" />
+            </label>
+            <label class="field">
+              <span>Role</span>
+              <select>
+                <option>Designer</option>
+                <option>Engineer</option>
+                <option>Writer</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Notes</span>
+              <textarea rows="2" placeholder="Short message"></textarea>
+            </label>
+          </article>
+
+          <article class="component-card">
+            <h3>Toggles</h3>
+            <div class="switches">
+              <label class="switch">
+                <input type="checkbox" checked />
+                <span class="switch-track" aria-hidden="true"></span>
+                Auto sync
+              </label>
+              <label class="check">
+                <input type="checkbox" checked />
+                Remember me
+              </label>
+              <div class="radio-group" role="radiogroup" aria-label="Priority">
+                <label class="radio">
+                  <input type="radio" name="priority" checked />
+                  Low
+                </label>
+                <label class="radio">
+                  <input type="radio" name="priority" />
+                  High
+                </label>
+              </div>
+            </div>
+          </article>
+
+          <article class="component-card">
+            <h3>Ranges</h3>
+            <label class="field">
+              <span>Intensity</span>
+              <input type="range" min="0" max="100" value="72" />
+            </label>
+            <div class="range-meta">
+              <span>Quiet</span>
+              <span>72%</span>
+              <span>Bold</span>
+            </div>
+            <div class="segmented" role="group" aria-label="Mode">
+              <button type="button" class="seg active">Auto</button>
+              <button type="button" class="seg">Manual</button>
+              <button type="button" class="seg">Focus</button>
+            </div>
+          </article>
+
+          <article class="component-card">
+            <h3>Badges & actions</h3>
+            <div class="chip-row">
+              <span class="chip">New</span>
+              <span class="chip">Beta</span>
+              <span class="chip alert">Offline</span>
+            </div>
+            <div class="button-row">
+              <button class="flat" type="button">Primary</button>
+              <button class="outline" type="button">Outline</button>
+              <button class="ghost-btn" type="button">Ghost</button>
+            </div>
+            <div class="note">
+              <span class="dot" aria-hidden="true"></span>
+              Status updated 2 min ago
+            </div>
+          </article>
+        </div>
+      </section>
+
       <footer class="foot">
         <div>Install-ready • Offline-capable • Themeable</div>
         <a class="ghost" href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps" target="_blank" rel="noreferrer">Learn about PWAs</a>
