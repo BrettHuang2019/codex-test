@@ -4,6 +4,9 @@ const cards = document.querySelectorAll(".theme-card");
 const statusEl = document.getElementById("net-status");
 const helloBtn = document.getElementById("hello-btn");
 const helloOutput = document.getElementById("hello-output");
+const counterValue = document.getElementById("counter-value");
+const counterBtn = document.getElementById("counter-btn");
+let count = 0;
 
 function setTheme(theme) {
   if (!themes.includes(theme)) return;
@@ -45,6 +48,11 @@ updateStatus();
 helloBtn.addEventListener("click", () => {
   const stamp = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   helloOutput.textContent = `Hello from your PWA at ${stamp}.`;
+});
+
+counterBtn.addEventListener("click", () => {
+  count += 1;
+  counterValue.textContent = `${count}`;
 });
 
 if ("serviceWorker" in navigator) {

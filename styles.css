@@ -187,6 +187,33 @@ h1 {
   box-shadow: var(--shadow);
 }
 
+.counter-block {
+  margin-top: 0.4rem;
+  padding: 1rem;
+  border-radius: 18px;
+  border: 2px dashed #101010;
+  background: #fff;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.counter-label {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  font-size: 0.65rem;
+}
+
+.counter-readout {
+  font-size: 2.2rem;
+  font-weight: 700;
+}
+
+.counter-block button {
+  justify-self: start;
+  padding: 0.7rem 1.4rem;
+}
+
 .tiny {
   margin: 0;
   font-size: 0.9rem;
@@ -243,6 +270,7 @@ html[data-theme="noir"] .logo,
 html[data-theme="noir"] .status,
 html[data-theme="noir"] .theme-card,
 html[data-theme="noir"] .hero,
+html[data-theme="noir"] .counter-block,
 html[data-theme="noir"] .cta button {
   border-color: #58c9ff;
 }
@@ -254,7 +282,8 @@ html[data-theme="noir"] .logo {
 
 html[data-theme="noir"] .status,
 html[data-theme="noir"] .theme-card,
-html[data-theme="noir"] .hero {
+html[data-theme="noir"] .hero,
+html[data-theme="noir"] .counter-block {
   background: rgba(11, 16, 34, 0.88);
   box-shadow: 0 22px 50px rgba(10, 20, 45, 0.55);
 }
@@ -275,6 +304,7 @@ html[data-theme="terminal"] .logo,
 html[data-theme="terminal"] .status,
 html[data-theme="terminal"] .theme-card,
 html[data-theme="terminal"] .hero,
+html[data-theme="terminal"] .counter-block,
 html[data-theme="terminal"] .cta button {
   border-color: #1eff8b;
 }
@@ -286,7 +316,8 @@ html[data-theme="terminal"] .logo {
 
 html[data-theme="terminal"] .status,
 html[data-theme="terminal"] .theme-card,
-html[data-theme="terminal"] .hero {
+html[data-theme="terminal"] .hero,
+html[data-theme="terminal"] .counter-block {
   background: rgba(5, 20, 12, 0.8);
   box-shadow: 0 0 24px rgba(30, 255, 139, 0.25);
 }
@@ -311,7 +342,8 @@ html[data-theme="glass"] .ambient {
 
 html[data-theme="glass"] .hero,
 html[data-theme="glass"] .theme-card,
-html[data-theme="glass"] .status {
+html[data-theme="glass"] .status,
+html[data-theme="glass"] .counter-block {
   background: rgba(255, 255, 255, 0.55);
   backdrop-filter: blur(14px);
   border-color: rgba(27, 28, 36, 0.2);
@@ -350,7 +382,8 @@ html[data-theme="editorial"] .logo {
 
 html[data-theme="editorial"] .status,
 html[data-theme="editorial"] .theme-card,
-html[data-theme="editorial"] .hero {
+html[data-theme="editorial"] .hero,
+html[data-theme="editorial"] .counter-block {
   background: #fdf6ea;
   border-color: #3b2312;
   box-shadow: 0 18px 40px rgba(59, 35, 18, 0.25);
@@ -369,7 +402,8 @@ html[data-theme="brutal"] body {
 
 html[data-theme="brutal"] .hero,
 html[data-theme="brutal"] .theme-card,
-html[data-theme="brutal"] .status {
+html[data-theme="brutal"] .status,
+html[data-theme="brutal"] .counter-block {
   background: #fff5db;
 }
 
