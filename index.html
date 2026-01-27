@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en" data-theme="brutal">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b0b0b" />
+    <title>Hello PWA</title>
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div class="ambient" aria-hidden="true"></div>
+    <main class="shell">
+      <header class="top">
+        <div class="brand">
+          <span class="logo" aria-hidden="true">◎</span>
+          <div>
+            <p class="kicker">Hello World PWA</p>
+            <h1>Pick a vibe.</h1>
+          </div>
+        </div>
+        <div class="status" id="net-status">Checking connection…</div>
+      </header>
+
+      <section class="chooser" aria-label="Theme chooser">
+        <button class="theme-card" data-theme="brutal">
+          <span class="swatch brutal"></span>
+          <div>
+            <h2>Neo Brutal</h2>
+            <p>High contrast, punchy blocks, bold energy.</p>
+          </div>
+        </button>
+        <button class="theme-card" data-theme="terminal">
+          <span class="swatch terminal"></span>
+          <div>
+            <h2>Retro Terminal</h2>
+            <p>CRT glow, monospace rhythm, midnight greens.</p>
+          </div>
+        </button>
+        <button class="theme-card" data-theme="glass">
+          <span class="swatch glass"></span>
+          <div>
+            <h2>Modern Glass</h2>
+            <p>Frosted panels, soft gradients, airy layout.</p>
+          </div>
+        </button>
+        <button class="theme-card" data-theme="editorial">
+          <span class="swatch editorial"></span>
+          <div>
+            <h2>Warm Editorial</h2>
+            <p>Paper textures, serif drama, ink-stained charm.</p>
+          </div>
+        </button>
+      </section>
+
+      <section class="hero">
+        <div>
+          <h2>Hello, World.</h2>
+          <p>
+            This is a lightweight progressive web app. It works offline and lets you switch
+            between four distinct interface styles.
+          </p>
+        </div>
+        <div class="cta">
+          <button id="hello-btn">Tap to Celebrate</button>
+          <p class="tiny" id="hello-output">Ready when you are.</p>
+        </div>
+      </section>
+
+      <footer class="foot">
+        <div>Install-ready • Offline-capable • Themeable</div>
+        <a class="ghost" href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps" target="_blank" rel="noreferrer">Learn about PWAs</a>
+      </footer>
+    </main>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>
