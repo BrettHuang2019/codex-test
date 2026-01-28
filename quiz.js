@@ -7,6 +7,20 @@ const hintsInput = document.getElementById("quiz-hints");
 const output = document.getElementById("quiz-html");
 const copyBtn = document.getElementById("copy-html");
 const downloadBtn = document.getElementById("download-html");
+const gameStartBtn = document.getElementById("game-start");
+const gameRerollBtn = document.getElementById("game-reroll");
+const gameScore = document.getElementById("game-score");
+const gameStreak = document.getElementById("game-streak");
+const gameLives = document.getElementById("game-lives");
+const gameLevel = document.getElementById("game-level");
+const gameTimerText = document.getElementById("game-timer-text");
+const gameTimerBar = document.getElementById("game-timer-bar");
+const gameQuestionTitle = document.getElementById("game-question-title");
+const gameQuestionText = document.getElementById("game-question-text");
+const gameQuestionHint = document.getElementById("game-question-hint");
+const gameAnswers = document.getElementById("game-answers");
+const gameMessage = document.getElementById("game-message");
+const gameSummary = document.getElementById("game-summary");
 
 const styleMap = {
   "text-text": {
@@ -26,12 +40,76 @@ const styleMap = {
   }
 };
 
+const GAME_TIME = 12;
+const GAME_LIVES = 3;
+
+let gameDeck = [];
+let gameState = {
+  currentIndex: 0,
+  score: 0,
+  streak: 0,
+  bestStreak: 0,
+  lives: GAME_LIVES,
+  timeLeft: GAME_TIME,
+  timerId: null,
+  inProgress: false,
+  answered: false
+};
+
 function repeat(count, mapper) {
   const items = [];
   for (let i = 0; i < count; i += 1) {
     items.push(mapper(i));
   }
   return items.join("\n");
+}
+
+function shuffle(items) {
+  const array = [...items];
+  for (let i = array.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+function buildQuizModel() {
+  const quizTitle = titleInput.value.trim() || "My Quiz";
+  const questionCount = Math.max(1, Number.parseInt(questionsInput.value, 10) || 1);
+  const answerCount = Math.max(2, Number.parseInt(answersInput.value, 10) || 2);
+  const style = styleMap[styleInput.value] || styleMap["text-text"];
+  const includeHints = hintsInput.value === "yes";
+
+  const questions = Array.from({ length: questionCount }, (_, index) => {
+    const qNumber = index + 1;
+    const questionText = style.question.text
+      ? `Question ${qNumber}: Replace this with your question text.`
+      : `Level ${qNumber}: Play the media clue and pick the right answer.`;
+    const hint = includeHints ? "Hint: Add a fun clue for this question." : "";
+    const answers = Array.from({ length: answerCount }, (_, answerIndex) => {
+      return {
+        label: `Answer ${answerIndex + 1}`,
+        correct: answerIndex === 0
+      };
+    });
+    return {
+      id: qNumber,
+      title: quizTitle,
+      prompt: questionText,
+      hint,
+      answers,
+      style
+    };
+  });
+
+  return {
+    title: quizTitle,
+    questionCount,
+    answerCount,
+    style,
+    includeHints,
+    questions
+  };
 }
 
 function questionMarkup(style, index, includeHints) {
@@ -96,11 +174,8 @@ ${parts.join("\n")}
 }
 
 function generateQuizHtml() {
-  const quizTitle = titleInput.value.trim() || "My Quiz";
-  const questionCount = Math.max(1, Number.parseInt(questionsInput.value, 10) || 1);
-  const answerCount = Math.max(2, Number.parseInt(answersInput.value, 10) || 2);
-  const style = styleMap[styleInput.value] || styleMap["text-text"];
-  const includeHints = hintsInput.value === "yes";
+  const model = buildQuizModel();
+  const { title: quizTitle, questionCount, answerCount, style, includeHints } = model;
 
   const pages = repeat(questionCount, (index) => {
     const qNumber = index + 1;
@@ -345,7 +420,7 @@ ${pages}
         pages.forEach((page, index) => {
           page.classList.toggle("active", index === current);
         });
-        progress.textContent = `Question ${current + 1} of ${pages.length}`;
+        progress.textContent = "Question " + (current + 1) + " of " + pages.length;
         prevBtn.disabled = current === 0;
         nextBtn.disabled = current === pages.length - 1;
         note.textContent = current === pages.length - 1 ? "Last question!" : "Tap an answer to continue.";
@@ -381,6 +456,200 @@ ${pages}
 </html>`;
 
   output.value = template;
+  primeGame(model);
+}
+
+function primeGame(model) {
+  gameDeck = shuffle(
+    model.questions.map((question) => {
+      return {
+        ...question,
+        answers: shuffle(question.answers)
+      };
+    })
+  );
+  resetGameState();
+  renderGamePreview(model);
+}
+
+function resetGameState() {
+  if (gameState.timerId) {
+    clearInterval(gameState.timerId);
+  }
+  gameState = {
+    currentIndex: 0,
+    score: 0,
+    streak: 0,
+    bestStreak: 0,
+    lives: GAME_LIVES,
+    timeLeft: GAME_TIME,
+    timerId: null,
+    inProgress: false,
+    answered: false
+  };
+  updateGameStats();
+  updateTimerDisplay();
+}
+
+function renderGamePreview(model) {
+  gameQuestionTitle.textContent = model ? model.title : "Ready?";
+  gameQuestionText.textContent = model
+    ? `You have ${model.questionCount} questions waiting.`
+    : "Generate a quiz and hit start to play.";
+  gameQuestionHint.textContent = model && model.includeHints ? "Hints are on for this run." : "";
+  gameAnswers.innerHTML = "";
+  gameMessage.textContent = "No game running yet.";
+  gameSummary.hidden = true;
+}
+
+function updateGameStats() {
+  gameScore.textContent = gameState.score;
+  gameStreak.textContent = gameState.streak;
+  gameLives.textContent = "❤".repeat(Math.max(gameState.lives, 0));
+  const displayIndex = gameState.inProgress ? gameState.currentIndex + 1 : 0;
+  gameLevel.textContent = `${Math.min(displayIndex, gameDeck.length)}/${gameDeck.length}`;
+}
+
+function updateTimerDisplay() {
+  gameTimerText.textContent = `${gameState.timeLeft}s`;
+  const percent = (gameState.timeLeft / GAME_TIME) * 100;
+  gameTimerBar.style.width = `${Math.max(0, percent)}%`;
+}
+
+function buildGameAnswer(answer, index, style) {
+  const parts = [];
+  if (style.answer.image) {
+    parts.push(
+      `<img src="https://placehold.co/240x160?text=${encodeURIComponent(answer.label)}" alt="${answer.label}" />`
+    );
+  }
+  if (style.answer.text) {
+    parts.push(`<span>${answer.label}</span>`);
+  }
+  if (style.answer.audio) {
+    parts.push(`<span class="quiz-game-media">🔊 Sound clue</span>`);
+  }
+  return `<button class="quiz-game-answer" data-index="${index}" data-correct="${answer.correct}">
+${parts.join("\n")}
+  </button>`;
+}
+
+function renderGameQuestion() {
+  const question = gameDeck[gameState.currentIndex];
+  if (!question) {
+    endGame();
+    return;
+  }
+
+  gameQuestionTitle.textContent = `Level ${gameState.currentIndex + 1}`;
+  gameQuestionText.textContent = question.prompt;
+  gameQuestionHint.textContent = question.hint;
+  gameAnswers.innerHTML = question.answers
+    .map((answer, index) => buildGameAnswer(answer, index, question.style))
+    .join("\n");
+  gameMessage.textContent = "Pick the best answer!";
+  gameSummary.hidden = true;
+  updateGameStats();
+  updateTimerDisplay();
+}
+
+function startTimer() {
+  if (gameState.timerId) {
+    clearInterval(gameState.timerId);
+  }
+  gameState.timerId = setInterval(() => {
+    if (!gameState.inProgress || gameState.answered) {
+      return;
+    }
+    gameState.timeLeft -= 1;
+    updateTimerDisplay();
+    if (gameState.timeLeft <= 0) {
+      handleAnswer(null);
+    }
+  }, 1000);
+}
+
+function handleAnswer(answerIndex) {
+  if (!gameState.inProgress || gameState.answered) {
+    return;
+  }
+
+  gameState.answered = true;
+  if (gameState.timerId) {
+    clearInterval(gameState.timerId);
+  }
+
+  const answers = gameDeck[gameState.currentIndex].answers;
+  const answer = answers[answerIndex];
+  const isCorrect = answer ? answer.correct : false;
+  const bonus = Math.max(0, gameState.timeLeft) * 5;
+  const baseScore = 100;
+
+  if (isCorrect) {
+    gameState.score += baseScore + bonus + gameState.streak * 10;
+    gameState.streak += 1;
+    gameState.bestStreak = Math.max(gameState.bestStreak, gameState.streak);
+    gameMessage.textContent = `Correct! +${baseScore + bonus}`;
+  } else {
+    gameState.lives -= 1;
+    gameState.streak = 0;
+    gameMessage.textContent = answer ? "Oops! Try the next one." : "Time's up! Keep going.";
+  }
+
+  const buttons = Array.from(gameAnswers.querySelectorAll(".quiz-game-answer"));
+  buttons.forEach((button) => {
+    const correct = button.dataset.correct === "true";
+    button.classList.toggle("correct", correct);
+    if (answerIndex !== null) {
+      const chosen = Number.parseInt(button.dataset.index, 10) === answerIndex;
+      if (chosen && !correct) {
+        button.classList.add("wrong");
+      }
+    }
+  });
+
+  updateGameStats();
+
+  setTimeout(() => {
+    if (gameState.lives <= 0) {
+      endGame();
+      return;
+    }
+    gameState.currentIndex += 1;
+    if (gameState.currentIndex >= gameDeck.length) {
+      endGame();
+      return;
+    }
+    gameState.timeLeft = GAME_TIME;
+    gameState.answered = false;
+    renderGameQuestion();
+    startTimer();
+  }, 1200);
+}
+
+function startGame() {
+  if (!gameDeck.length) {
+    primeGame(buildQuizModel());
+  }
+  resetGameState();
+  gameState.inProgress = true;
+  gameState.timeLeft = GAME_TIME;
+  renderGameQuestion();
+  startTimer();
+}
+
+function endGame() {
+  gameState.inProgress = false;
+  if (gameState.timerId) {
+    clearInterval(gameState.timerId);
+  }
+  gameMessage.textContent = "Game over!";
+  gameSummary.hidden = false;
+  gameSummary.innerHTML = `
+    <h3>Adventure complete!</h3>
+    <p>You scored <strong>${gameState.score}</strong> points with a best streak of <strong>${gameState.bestStreak}</strong>.</p>
+    <p>Press start to play again or remix to reshuffle the questions.</p>
+  `;
 }
 
 async function copyToClipboard() {
@@ -414,6 +683,16 @@ form.addEventListener("submit", (event) => {
 
 copyBtn.addEventListener("click", copyToClipboard);
 downloadBtn.addEventListener("click", downloadHtml);
+gameStartBtn.addEventListener("click", startGame);
+gameRerollBtn.addEventListener("click", () => {
+  primeGame(buildQuizModel());
+});
+gameAnswers.addEventListener("click", (event) => {
+  const button = event.target.closest(".quiz-game-answer");
+  if (!button) return;
+  const index = Number.parseInt(button.dataset.index, 10);
+  handleAnswer(Number.isNaN(index) ? null : index);
+});
 
 // Initial generation on load.
 generateQuizHtml();

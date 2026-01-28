@@ -19,7 +19,7 @@
         <div>
           <a class="quiz-back" href="/index.html">Back to landing</a>
           <h1>Quiz Generator</h1>
-          <p class="quiz-subtitle">Design playful quizzes for kids ages 8 to 10.</p>
+          <p class="quiz-subtitle">Generate a quiz, then jump into a playful mini game.</p>
         </div>
         <div class="quiz-status">
           <span class="quiz-chip">HTML5</span>
@@ -59,8 +59,8 @@
               <option value="no">No, keep it clean</option>
             </select>
           </label>
-          <button class="quiz-primary" type="submit">Generate quiz HTML</button>
-          <p class="quiz-note">Tip: You can replace every image, audio, and video URL in the output.</p>
+          <button class="quiz-primary" type="submit">Generate quiz + refresh game</button>
+          <p class="quiz-note">Tip: The mini game below updates every time you generate.</p>
         </form>
 
         <aside class="quiz-card quiz-help">
@@ -77,11 +77,48 @@
         </aside>
       </section>
 
+      <section class="quiz-card quiz-game" id="quiz-game">
+        <div class="quiz-game-head">
+          <div>
+            <h2>Play your quiz</h2>
+            <p>Run through your freshly generated quiz like a mini adventure with timers, streaks, and stars.</p>
+          </div>
+          <div class="quiz-game-actions">
+            <button class="quiz-secondary" type="button" id="game-reroll">Remix questions</button>
+            <button class="quiz-primary" type="button" id="game-start">Start game</button>
+          </div>
+        </div>
+        <div class="quiz-game-board">
+          <div class="quiz-game-stats">
+            <div class="quiz-game-chip">Score <strong id="game-score">0</strong></div>
+            <div class="quiz-game-chip">Streak <strong id="game-streak">0</strong></div>
+            <div class="quiz-game-chip">Lives <strong id="game-lives">❤❤❤</strong></div>
+            <div class="quiz-game-chip">Level <strong id="game-level">0/0</strong></div>
+          </div>
+          <div class="quiz-game-timer">
+            <span id="game-timer-text">0s</span>
+            <div class="quiz-game-timer-track">
+              <span class="quiz-game-timer-fill" id="game-timer-bar"></span>
+            </div>
+          </div>
+          <div class="quiz-game-stage" id="game-stage">
+            <div class="quiz-game-card">
+              <p class="quiz-game-kicker" id="game-question-title">Ready?</p>
+              <h3 class="quiz-game-question" id="game-question-text">Generate a quiz and hit start to play.</h3>
+              <p class="quiz-game-hint" id="game-question-hint"></p>
+              <div class="quiz-game-answers" id="game-answers"></div>
+              <p class="quiz-game-message" id="game-message">No game running yet.</p>
+            </div>
+            <div class="quiz-game-summary" id="game-summary" hidden></div>
+          </div>
+        </div>
+      </section>
+
       <section class="quiz-card quiz-output">
         <div class="quiz-output-head">
           <div>
             <h2>Your generated HTML</h2>
-            <p>Copy or download the HTML below and open it in any browser.</p>
+            <p>Optional: copy or download the HTML below and open it in any browser.</p>
           </div>
           <div class="quiz-toolbar">
             <button class="quiz-secondary" type="button" id="copy-html">Copy to clipboard</button>
