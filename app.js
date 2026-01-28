@@ -1,4 +1,4 @@
-const themes = ["brutal", "noir", "terminal", "glass", "editorial", "sunset"];
+const themes = ["brutal", "noir", "terminal", "glass", "editorial", "sunset", "minimal"];
 const root = document.documentElement;
 const cards = document.querySelectorAll(".theme-card");
 const statusEl = document.getElementById("net-status");
@@ -27,6 +27,8 @@ function themeColor(theme) {
       return "#3b2312";
     case "sunset":
       return "#102a2e";
+    case "minimal":
+      return "#f4f4f1";
     default:
       return "#0b0b0b";
   }

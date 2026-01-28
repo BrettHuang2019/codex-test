@@ -154,6 +154,10 @@ h1 {
   background: linear-gradient(120deg, #ffb454, #ff7a4a, #26c6c7);
 }
 
+.swatch.minimal {
+  background: linear-gradient(120deg, #f5f5f2, #e3e3df, #c8c8c4);
+}
+
 .hero {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -795,6 +799,72 @@ html[data-theme="sunset"] .counter-block {
 html[data-theme="sunset"] .cta button {
   background: linear-gradient(120deg, #ff7a4a, #ffb454, #26c6c7);
   color: #102a2e;
+}
+
+html[data-theme="minimal"] body {
+  font-family: "IBM Plex Sans", "Helvetica Neue", sans-serif;
+  background: linear-gradient(135deg, #f7f7f5 0%, #ffffff 50%, #f1f1ef 100%);
+  color: #111111;
+}
+
+html[data-theme="minimal"] {
+  --shadow: 0 10px 30px rgba(17, 17, 17, 0.08);
+  --ui-surface: #ffffff;
+  --ui-surface-muted: #f5f5f2;
+  --ui-surface-soft: #f0f0ed;
+  --ui-border: #d2d2ce;
+  --ui-strong: #111111;
+  --ui-strong-contrast: #ffffff;
+  --ui-accent: #111111;
+  --ui-accent-2: #7b7b76;
+}
+
+html[data-theme="minimal"] .ambient {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(120, 120, 120, 0.15), transparent 55%),
+    radial-gradient(circle at 85% 15%, rgba(70, 70, 70, 0.08), transparent 50%),
+    radial-gradient(circle at 40% 85%, rgba(160, 160, 160, 0.12), transparent 60%);
+  opacity: 0.45;
+}
+
+html[data-theme="minimal"] .logo {
+  background: #ffffff;
+  color: #111111;
+  border: 1px solid #d2d2ce;
+  box-shadow: none;
+}
+
+html[data-theme="minimal"] .status,
+html[data-theme="minimal"] .theme-card,
+html[data-theme="minimal"] .hero,
+html[data-theme="minimal"] .counter-block,
+html[data-theme="minimal"] .component-card {
+  background: #ffffff;
+  border-color: #d2d2ce;
+  box-shadow: var(--shadow);
+}
+
+html[data-theme="minimal"] .theme-card,
+html[data-theme="minimal"] .hero,
+html[data-theme="minimal"] .counter-block,
+html[data-theme="minimal"] .component-card,
+html[data-theme="minimal"] .status {
+  border-width: 1px;
+}
+
+html[data-theme="minimal"] .cta button {
+  background: #111111;
+  border-color: #111111;
+  box-shadow: none;
+}
+
+html[data-theme="minimal"] .note {
+  background: #f7f7f5;
+}
+
+html[data-theme="minimal"] .dot {
+  box-shadow: none;
+  background: #111111;
 }
 
 html[data-theme="brutal"] body {
