@@ -43,6 +43,153 @@ const styleMap = {
 const GAME_TIME = 12;
 const GAME_LIVES = 3;
 
+const MOCK_QUESTIONS = [
+  {
+    prompt: "Which animal is the fastest land runner?",
+    hint: "It can hit speeds over 60 mph in short bursts.",
+    answers: [
+      { label: "Cheetah", correct: true },
+      { label: "Lion", correct: false },
+      { label: "Gazelle", correct: false },
+      { label: "Horse", correct: false },
+      { label: "Ostrich", correct: false },
+      { label: "Pronghorn", correct: false }
+    ]
+  },
+  {
+    prompt: "What is the largest animal on Earth?",
+    hint: "It lives in the ocean and can be over 90 feet long.",
+    answers: [
+      { label: "Blue whale", correct: true },
+      { label: "Elephant", correct: false },
+      { label: "Giraffe", correct: false },
+      { label: "Great white shark", correct: false },
+      { label: "Hippopotamus", correct: false },
+      { label: "Orca", correct: false }
+    ]
+  },
+  {
+    prompt: "Which animal is known for changing its skin color to blend in?",
+    hint: "This reptile uses camouflage to hide and hunt.",
+    answers: [
+      { label: "Chameleon", correct: true },
+      { label: "Iguana", correct: false },
+      { label: "Gecko", correct: false },
+      { label: "Anole", correct: false },
+      { label: "Komodo dragon", correct: false },
+      { label: "Salamander", correct: false }
+    ]
+  },
+  {
+    prompt: "Which bird is famous for mimicking human speech?",
+    hint: "It is a highly intelligent parrot species.",
+    answers: [
+      { label: "African grey parrot", correct: true },
+      { label: "Bald eagle", correct: false },
+      { label: "Penguin", correct: false },
+      { label: "Peacock", correct: false },
+      { label: "Toucan", correct: false },
+      { label: "Flamingo", correct: false }
+    ]
+  },
+  {
+    prompt: "Which mammal can fly?",
+    hint: "It uses wings made of stretched skin.",
+    answers: [
+      { label: "Bat", correct: true },
+      { label: "Flying squirrel", correct: false },
+      { label: "Sugar glider", correct: false },
+      { label: "Penguin", correct: false },
+      { label: "Ostrich", correct: false },
+      { label: "Platypus", correct: false }
+    ]
+  },
+  {
+    prompt: "What is a group of lions called?",
+    hint: "It starts with the letter P.",
+    answers: [
+      { label: "Pride", correct: true },
+      { label: "Pack", correct: false },
+      { label: "Herd", correct: false },
+      { label: "Flock", correct: false },
+      { label: "Colony", correct: false },
+      { label: "School", correct: false }
+    ]
+  },
+  {
+    prompt: "Which animal is famous for building dams?",
+    hint: "It uses sticks and mud to slow rivers.",
+    answers: [
+      { label: "Beaver", correct: true },
+      { label: "Otter", correct: false },
+      { label: "Muskrat", correct: false },
+      { label: "Raccoon", correct: false },
+      { label: "Moose", correct: false },
+      { label: "Badger", correct: false }
+    ]
+  },
+  {
+    prompt: "Which animal has black and white stripes?",
+    hint: "It looks like a horse with bold patterns.",
+    answers: [
+      { label: "Zebra", correct: true },
+      { label: "Skunk", correct: false },
+      { label: "Tiger", correct: false },
+      { label: "Okapi", correct: false },
+      { label: "Dalmatian", correct: false },
+      { label: "Panda", correct: false }
+    ]
+  },
+  {
+    prompt: "What is the slowest moving mammal?",
+    hint: "It spends most of its life hanging in trees.",
+    answers: [
+      { label: "Sloth", correct: true },
+      { label: "Koala", correct: false },
+      { label: "Pangolin", correct: false },
+      { label: "Armadillo", correct: false },
+      { label: "Hedgehog", correct: false },
+      { label: "Lemur", correct: false }
+    ]
+  },
+  {
+    prompt: "Which animal is known for its long neck?",
+    hint: "It is the tallest land animal.",
+    answers: [
+      { label: "Giraffe", correct: true },
+      { label: "Camel", correct: false },
+      { label: "Llama", correct: false },
+      { label: "Moose", correct: false },
+      { label: "Alpaca", correct: false },
+      { label: "Ostrich", correct: false }
+    ]
+  },
+  {
+    prompt: "Which sea creature has eight arms?",
+    hint: "It is a clever invertebrate.",
+    answers: [
+      { label: "Octopus", correct: true },
+      { label: "Squid", correct: false },
+      { label: "Starfish", correct: false },
+      { label: "Jellyfish", correct: false },
+      { label: "Crab", correct: false },
+      { label: "Lobster", correct: false }
+    ]
+  },
+  {
+    prompt: "Which animal is known as the king of the jungle?",
+    hint: "It is a big cat with a mane.",
+    answers: [
+      { label: "Lion", correct: true },
+      { label: "Tiger", correct: false },
+      { label: "Leopard", correct: false },
+      { label: "Jaguar", correct: false },
+      { label: "Cheetah", correct: false },
+      { label: "Cougar", correct: false }
+    ]
+  }
+];
+
 let gameDeck = [];
 let gameState = {
   currentIndex: 0,
@@ -82,20 +229,13 @@ function buildQuizModel() {
 
   const questions = Array.from({ length: questionCount }, (_, index) => {
     const qNumber = index + 1;
-    const questionText = style.question.text
-      ? `Question ${qNumber}: Replace this with your question text.`
-      : `Level ${qNumber}: Play the media clue and pick the right answer.`;
-    const hint = includeHints ? "Hint: Add a fun clue for this question." : "";
-    const answers = Array.from({ length: answerCount }, (_, answerIndex) => {
-      return {
-        label: `Answer ${answerIndex + 1}`,
-        correct: answerIndex === 0
-      };
-    });
+    const mock = MOCK_QUESTIONS[index % MOCK_QUESTIONS.length];
+    const hint = includeHints ? mock.hint : "";
+    const answers = mock.answers.slice(0, answerCount);
     return {
       id: qNumber,
       title: quizTitle,
-      prompt: questionText,
+      prompt: mock.prompt,
       hint,
       answers,
       style
@@ -112,13 +252,12 @@ function buildQuizModel() {
   };
 }
 
-function questionMarkup(style, index, includeHints) {
-  const qNumber = index + 1;
-  const questionText = `Question ${qNumber}: Replace this with your question text.`;
-  const hint = includeHints ? `\n      <p class="quiz-hint">Hint: Add a fun clue for this question.</p>` : "";
+function questionMarkup(question, includeHints) {
+  const questionText = question.prompt;
+  const hint = includeHints && question.hint ? `\n      <p class="quiz-hint">${question.hint}</p>` : "";
 
   const mediaBlocks = [];
-  if (style.question.video) {
+  if (question.style.question.video) {
     mediaBlocks.push(
       "      <video class=\"quiz-media\" controls poster=\"https://placehold.co/720x405?text=Question+Video\">",
       "        <source src=\"path/to/question-video.mp4\" type=\"video/mp4\" />",
@@ -126,7 +265,7 @@ function questionMarkup(style, index, includeHints) {
       "      </video>"
     );
   }
-  if (style.question.audio) {
+  if (question.style.question.audio) {
     mediaBlocks.push(
       "      <audio class=\"quiz-audio\" controls>",
       "        <source src=\"path/to/question-audio.mp3\" type=\"audio/mpeg\" />",
@@ -135,17 +274,18 @@ function questionMarkup(style, index, includeHints) {
     );
   }
 
-  const textBlock = style.question.text
+  const textBlock = question.style.question.text
     ? `      <p class="quiz-question">${questionText}</p>${hint}`
     : "";
 
   return [textBlock, mediaBlocks.join("\n")].filter(Boolean).join("\n");
 }
 
-function answerMarkup(style, answerCount) {
-  return repeat(answerCount, (index) => {
-    const isCorrect = index === 0 ? "true" : "false";
-    const answerLabel = `Answer ${index + 1}`;
+function answerMarkup(style, answers) {
+  return repeat(answers.length, (index) => {
+    const answer = answers[index];
+    const isCorrect = answer.correct ? "true" : "false";
+    const answerLabel = answer.label;
     const parts = [];
 
     if (style.answer.image) {
@@ -179,13 +319,14 @@ function generateQuizHtml() {
 
   const pages = repeat(questionCount, (index) => {
     const qNumber = index + 1;
+    const question = model.questions[index];
     return `      <section class=\"quiz-page\" data-page=\"${qNumber}\">
         <h2 class=\"quiz-page-title\">${quizTitle}</h2>
         <div class=\"quiz-question-wrap\">
-${questionMarkup(style, index, includeHints)}
+${questionMarkup(question, includeHints)}
         </div>
         <div class=\"quiz-answers\">
-${answerMarkup(style, answerCount)}
+${answerMarkup(style, question.answers)}
         </div>
       </section>`;
   });
