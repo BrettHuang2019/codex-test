@@ -1,7 +1,11 @@
-const CACHE_NAME = "hello-pwa-v1";
+const CACHE_NAME = "hello-pwa-v2";
 const ASSETS = [
   "/",
   "/index.html",
+  "/quiz.html",
+  "/quiz.js",
+  "/pwa.js",
+  "/test.html",
   "/styles.css",
   "/app.js",
   "/manifest.webmanifest",

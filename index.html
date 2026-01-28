@@ -1,217 +1,72 @@
 <!doctype html>
-<html lang="en" data-theme="brutal">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#0b0b0b" />
-    <title>Hello PWA</title>
+    <meta name="theme-color" content="#ffd24d" />
+    <title>Quiz Generator Landing</title>
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="stylesheet" href="/styles.css" />
     <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
   </head>
-  <body>
-    <div class="ambient" aria-hidden="true"></div>
-    <main class="shell">
-      <header class="top">
-        <div class="brand">
-          <span class="logo" aria-hidden="true">◎</span>
-          <div>
-            <p class="kicker">Hello World PWA</p>
-            <h1>Pick a vibe.</h1>
-          </div>
-        </div>
-        <div class="status" id="net-status">Checking connection…</div>
+  <body class="landing">
+    <div class="landing-ambient" aria-hidden="true"></div>
+    <main class="landing-shell">
+      <header class="landing-header">
+        <div class="landing-badge">Quiz Generator</div>
+        <nav class="landing-nav">
+          <a class="landing-link" href="/quiz.html">Create a quiz</a>
+          <a class="landing-link ghost" href="/test.html">UI test lab</a>
+        </nav>
       </header>
 
-      <section class="chooser" aria-label="Theme chooser">
-        <button class="theme-card" data-theme="brutal">
-          <span class="swatch brutal"></span>
-          <div>
-            <h2>Neo Brutal</h2>
-            <p>High contrast, punchy blocks, bold energy.</p>
-          </div>
-        </button>
-        <button class="theme-card" data-theme="noir">
-          <span class="swatch noir"></span>
-          <div>
-            <h2>Neon Noir</h2>
-            <p>Inky blues, neon accents, cinematic mood.</p>
-          </div>
-        </button>
-        <button class="theme-card" data-theme="terminal">
-          <span class="swatch terminal"></span>
-          <div>
-            <h2>Retro Terminal</h2>
-            <p>CRT glow, monospace rhythm, midnight greens.</p>
-          </div>
-        </button>
-        <button class="theme-card" data-theme="glass">
-          <span class="swatch glass"></span>
-          <div>
-            <h2>Modern Glass</h2>
-            <p>Frosted panels, soft gradients, airy layout.</p>
-          </div>
-        </button>
-        <button class="theme-card" data-theme="editorial">
-          <span class="swatch editorial"></span>
-          <div>
-            <h2>Warm Editorial</h2>
-            <p>Paper textures, serif drama, ink-stained charm.</p>
-          </div>
-        </button>
-        <button class="theme-card" data-theme="sunset">
-          <span class="swatch sunset"></span>
-          <div>
-            <h2>Sunset Coast</h2>
-            <p>Sunlit citrus, teal shadows, breezy energy.</p>
-          </div>
-        </button>
-        <button class="theme-card" data-theme="minimal">
-          <span class="swatch minimal"></span>
-          <div>
-            <h2>Minimal Calm</h2>
-            <p>Soft neutrals, quiet contrast, focused spacing.</p>
-          </div>
-        </button>
-      </section>
-
-      <section class="hero">
+      <section class="landing-hero">
         <div>
-          <h2>Hello, World.</h2>
-          <p>
-            This is a lightweight progressive web app. It works offline and lets you switch
-            between seven distinct interface styles.
+          <p class="landing-kicker">For ages 8 to 10</p>
+          <h1>Build playful quizzes in minutes.</h1>
+          <p class="landing-lede">
+            Choose a style, set your number of questions and answers, then export a ready-to-edit
+            HTML quiz with built-in navigation.
           </p>
-        </div>
-        <div class="cta">
-          <button id="hello-btn">Tap to Celebrate</button>
-          <p class="tiny" id="hello-output">Ready when you are.</p>
-          <div class="counter-block" aria-live="polite">
-            <p class="counter-label">Button test counter</p>
-            <div class="counter-readout" id="counter-value">0</div>
-            <button id="counter-btn" type="button">Add one</button>
+          <div class="landing-actions">
+            <a class="landing-primary" href="/quiz.html">Start the quiz generator</a>
+            <a class="landing-secondary" href="/test.html">Open the UI test page</a>
           </div>
+        </div>
+        <div class="landing-card">
+          <h2>What you get</h2>
+          <ul>
+            <li>Friendly kid-focused theme with bright colors.</li>
+            <li>Flexible layouts for text, images, video, and sound.</li>
+            <li>Editable placeholders for every question and answer.</li>
+            <li>Self-contained HTML output you can share offline.</li>
+          </ul>
         </div>
       </section>
 
-      <section class="components" aria-label="UI components">
-        <div class="components-head">
-          <div>
-            <h2>Component sampler</h2>
-            <p>Basic UI blocks for smoke testing layouts and styles.</p>
-          </div>
-          <div class="pill-row" role="list">
-            <span class="pill" role="listitem">Forms</span>
-            <span class="pill" role="listitem">Status</span>
-            <span class="pill" role="listitem">Controls</span>
-          </div>
-        </div>
-        <div class="component-grid">
-          <article class="component-card">
-            <h3>Progress</h3>
-            <div class="progress">
-              <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="64">
-                <span class="progress-fill" style="--value: 64%;"></span>
-              </div>
-              <div class="progress-meta">Processing 64%</div>
-            </div>
-            <div class="progress">
-              <div class="progress-track alt" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="32">
-                <span class="progress-fill" style="--value: 32%;"></span>
-              </div>
-              <div class="progress-meta">Queue 32%</div>
-            </div>
-          </article>
-
-          <article class="component-card">
-            <h3>Inputs</h3>
-            <label class="field">
-              <span>Display name</span>
-              <input type="text" placeholder="Type here" />
-            </label>
-            <label class="field">
-              <span>Role</span>
-              <select>
-                <option>Designer</option>
-                <option>Engineer</option>
-                <option>Writer</option>
-              </select>
-            </label>
-            <label class="field">
-              <span>Notes</span>
-              <textarea rows="2" placeholder="Short message"></textarea>
-            </label>
-          </article>
-
-          <article class="component-card">
-            <h3>Toggles</h3>
-            <div class="switches">
-              <label class="switch">
-                <input type="checkbox" checked />
-                <span class="switch-track" aria-hidden="true"></span>
-                Auto sync
-              </label>
-              <label class="check">
-                <input type="checkbox" checked />
-                Remember me
-              </label>
-              <div class="radio-group" role="radiogroup" aria-label="Priority">
-                <label class="radio">
-                  <input type="radio" name="priority" checked />
-                  Low
-                </label>
-                <label class="radio">
-                  <input type="radio" name="priority" />
-                  High
-                </label>
-              </div>
-            </div>
-          </article>
-
-          <article class="component-card">
-            <h3>Ranges</h3>
-            <label class="field">
-              <span>Intensity</span>
-              <input type="range" min="0" max="100" value="72" />
-            </label>
-            <div class="range-meta">
-              <span>Quiet</span>
-              <span>72%</span>
-              <span>Bold</span>
-            </div>
-            <div class="segmented" role="group" aria-label="Mode">
-              <button type="button" class="seg active">Auto</button>
-              <button type="button" class="seg">Manual</button>
-              <button type="button" class="seg">Focus</button>
-            </div>
-          </article>
-
-          <article class="component-card">
-            <h3>Badges & actions</h3>
-            <div class="chip-row">
-              <span class="chip">New</span>
-              <span class="chip">Beta</span>
-              <span class="chip alert">Offline</span>
-            </div>
-            <div class="button-row">
-              <button class="flat" type="button">Primary</button>
-              <button class="outline" type="button">Outline</button>
-              <button class="ghost-btn" type="button">Ghost</button>
-            </div>
-            <div class="note">
-              <span class="dot" aria-hidden="true"></span>
-              Status updated 2 min ago
-            </div>
-          </article>
-        </div>
+      <section class="landing-grid">
+        <article class="landing-panel">
+          <h3>1. Pick a style</h3>
+          <p>Combine question and answer formats like text, images, audio, or video.</p>
+        </article>
+        <article class="landing-panel">
+          <h3>2. Set sizes</h3>
+          <p>Choose how many question pages and answers you want per page.</p>
+        </article>
+        <article class="landing-panel">
+          <h3>3. Export</h3>
+          <p>Copy or download the HTML, then swap in your own content.</p>
+        </article>
       </section>
 
-      <footer class="foot">
-        <div>Install-ready • Offline-capable • Themeable</div>
-        <a class="ghost" href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps" target="_blank" rel="noreferrer">Learn about PWAs</a>
+      <footer class="landing-footer">
+        <div>Tip: Keep files small for faster loading on tablets.</div>
+        <div>Powered by a simple, editable HTML template.</div>
       </footer>
     </main>
-
-    <script src="/app.js" defer></script>
+    <script src="/pwa.js" defer></script>
   </body>
 </html>

@@ -1,11 +1,11 @@
 {
-  "name": "Hello World PWA",
-  "short_name": "HelloPWA",
+  "name": "Quiz Generator",
+  "short_name": "QuizGen",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#fff5db",
   "theme_color": "#0b0b0b",
-  "description": "A hello world PWA with four different UI themes.",
+  "description": "A quiz generator with a landing page, test lab, and exportable HTML quizzes.",
   "icons": [
     {
       "src": "/icon.svg",

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#ff7a4a" />
+    <title>Quiz Generator</title>
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body class="quiz">
+    <div class="quiz-ambient" aria-hidden="true"></div>
+    <main class="quiz-shell">
+      <header class="quiz-header">
+        <div>
+          <a class="quiz-back" href="/index.html">Back to landing</a>
+          <h1>Quiz Generator</h1>
+          <p class="quiz-subtitle">Design playful quizzes for kids ages 8 to 10.</p>
+        </div>
+        <div class="quiz-status">
+          <span class="quiz-chip">HTML5</span>
+          <span class="quiz-chip">Self-contained output</span>
+        </div>
+      </header>
+
+      <section class="quiz-layout">
+        <form class="quiz-card quiz-form" id="quiz-form">
+          <h2>Build your quiz</h2>
+          <label class="quiz-field">
+            <span>Quiz title</span>
+            <input type="text" id="quiz-title" value="Amazing Animal Quiz" />
+          </label>
+          <label class="quiz-field">
+            <span>Style</span>
+            <select id="quiz-style">
+              <option value="text-text">Question: Textual, Answers: Textual</option>
+              <option value="text-audio-image">Question: Textual + Sound, Answers: Images</option>
+              <option value="video-audio-image-audio">Question: Video + Sound, Answers: Images + Sound</option>
+            </select>
+          </label>
+          <div class="quiz-row">
+            <label class="quiz-field">
+              <span>Number of questions</span>
+              <input type="number" id="quiz-questions" min="1" max="12" value="5" />
+            </label>
+            <label class="quiz-field">
+              <span>Number of answers</span>
+              <input type="number" id="quiz-answers" min="2" max="6" value="4" />
+            </label>
+          </div>
+          <label class="quiz-field">
+            <span>Include starter hints</span>
+            <select id="quiz-hints">
+              <option value="yes">Yes, add helpful hints</option>
+              <option value="no">No, keep it clean</option>
+            </select>
+          </label>
+          <button class="quiz-primary" type="submit">Generate quiz HTML</button>
+          <p class="quiz-note">Tip: You can replace every image, audio, and video URL in the output.</p>
+        </form>
+
+        <aside class="quiz-card quiz-help">
+          <h2>Editing guide</h2>
+          <ol>
+            <li>Find the question blocks labeled <strong>Quiz Page</strong>.</li>
+            <li>Replace text between the tags with your own content.</li>
+            <li>Swap image, audio, and video URLs in each answer card.</li>
+            <li>Keep only one <code>data-correct="true"</code> per question.</li>
+          </ol>
+          <div class="quiz-tip">
+            <p><strong>Media tips:</strong> Use short clips, keep images under 200 KB, and test on tablets.</p>
+          </div>
+        </aside>
+      </section>
+
+      <section class="quiz-card quiz-output">
+        <div class="quiz-output-head">
+          <div>
+            <h2>Your generated HTML</h2>
+            <p>Copy or download the HTML below and open it in any browser.</p>
+          </div>
+          <div class="quiz-toolbar">
+            <button class="quiz-secondary" type="button" id="copy-html">Copy to clipboard</button>
+            <button class="quiz-secondary" type="button" id="download-html">Download HTML</button>
+          </div>
+        </div>
+        <textarea id="quiz-html" spellcheck="false"></textarea>
+      </section>
+    </main>
+
+    <script src="/quiz.js" defer></script>
+    <script src="/pwa.js" defer></script>
+  </body>
+</html>
