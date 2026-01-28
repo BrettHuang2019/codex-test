@@ -1,4 +1,4 @@
-const CACHE_NAME = "hello-pwa-v2";
+const CACHE_NAME = "hello-pwa-v3";
 const ASSETS = [
   "/",
   "/index.html",
@@ -9,7 +9,9 @@ const ASSETS = [
   "/styles.css",
   "/app.js",
   "/manifest.webmanifest",
-  "/icon.svg"
+  "/icon.svg",
+  "/assets/sounds/Happy.mp3",
+  "/assets/sounds/Sad.mp3"
 ];
 
 self.addEventListener("install", (event) => {

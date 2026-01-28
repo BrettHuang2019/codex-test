@@ -22,6 +22,12 @@ const gameAnswers = document.getElementById("game-answers");
 const gameMessage = document.getElementById("game-message");
 const gameSummary = document.getElementById("game-summary");
 const soundState = { ctx: null, master: null };
+const correctSound = new Audio("assets/sounds/Happy.mp3");
+const wrongSound = new Audio("assets/sounds/Sad.mp3");
+correctSound.preload = "auto";
+wrongSound.preload = "auto";
+correctSound.volume = 0.7;
+wrongSound.volume = 0.7;
 
 const styleMap = {
   "text-text": {
@@ -80,15 +86,21 @@ function playClickSound() {
   playTone({ frequency: 720, duration: 0.08, type: "triangle", gain: 0.1 });
 }
 
+function playEffect(effect) {
+  if (!effect) return;
+  effect.currentTime = 0;
+  const promise = effect.play();
+  if (promise && typeof promise.catch === "function") {
+    promise.catch(() => {});
+  }
+}
+
 function playCorrectSound() {
-  playTone({ frequency: 523.25, duration: 0.14, type: "sine", gain: 0.12 });
-  playTone({ frequency: 659.25, duration: 0.14, type: "sine", gain: 0.11, startOffset: 0.12 });
-  playTone({ frequency: 783.99, duration: 0.18, type: "sine", gain: 0.11, startOffset: 0.24 });
+  playEffect(correctSound);
 }
 
 function playWrongSound() {
-  playTone({ frequency: 392, duration: 0.16, type: "sine", gain: 0.1 });
-  playTone({ frequency: 330, duration: 0.2, type: "sine", gain: 0.09, startOffset: 0.14 });
+  playEffect(wrongSound);
 }
 
 const MOCK_QUESTIONS = [
@@ -599,6 +611,12 @@ ${pages}
     </main>
     <script>
       const soundState = { ctx: null, master: null };
+      const correctSound = new Audio("assets/sounds/Happy.mp3");
+      const wrongSound = new Audio("assets/sounds/Sad.mp3");
+      correctSound.preload = "auto";
+      wrongSound.preload = "auto";
+      correctSound.volume = 0.7;
+      wrongSound.volume = 0.7;
 
       function ensureAudio() {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -636,15 +654,21 @@ ${pages}
         playTone({ frequency: 720, duration: 0.08, type: "triangle", gain: 0.1 });
       }
 
+      function playEffect(effect) {
+        if (!effect) return;
+        effect.currentTime = 0;
+        const promise = effect.play();
+        if (promise && typeof promise.catch === "function") {
+          promise.catch(() => {});
+        }
+      }
+
       function playCorrectSound() {
-        playTone({ frequency: 523.25, duration: 0.14, type: "sine", gain: 0.12 });
-        playTone({ frequency: 659.25, duration: 0.14, type: "sine", gain: 0.11, startOffset: 0.12 });
-        playTone({ frequency: 783.99, duration: 0.18, type: "sine", gain: 0.11, startOffset: 0.24 });
+        playEffect(correctSound);
       }
 
       function playWrongSound() {
-        playTone({ frequency: 392, duration: 0.16, type: "sine", gain: 0.1 });
-        playTone({ frequency: 330, duration: 0.2, type: "sine", gain: 0.09, startOffset: 0.14 });
+        playEffect(wrongSound);
       }
 
       const pages = Array.from(document.querySelectorAll(".quiz-page"));
