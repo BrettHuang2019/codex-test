@@ -21,6 +21,7 @@ const gameQuestionHint = document.getElementById("game-question-hint");
 const gameAnswers = document.getElementById("game-answers");
 const gameMessage = document.getElementById("game-message");
 const gameSummary = document.getElementById("game-summary");
+const soundState = { ctx: null, master: null };
 
 const styleMap = {
   "text-text": {
@@ -42,6 +43,53 @@ const styleMap = {
 
 const GAME_TIME = 12;
 const GAME_LIVES = 3;
+
+function ensureAudio() {
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContext) return null;
+  if (!soundState.ctx) {
+    soundState.ctx = new AudioContext();
+    soundState.master = soundState.ctx.createGain();
+    soundState.master.gain.value = 0.18;
+    soundState.master.connect(soundState.ctx.destination);
+  }
+  if (soundState.ctx.state === "suspended") {
+    soundState.ctx.resume();
+  }
+  return soundState.ctx;
+}
+
+function playTone({ frequency, duration, type = "sine", gain = 0.12, startOffset = 0 }) {
+  const ctx = ensureAudio();
+  if (!ctx) return;
+  const startTime = ctx.currentTime + startOffset;
+  const osc = ctx.createOscillator();
+  const amp = ctx.createGain();
+  osc.type = type;
+  osc.frequency.value = frequency;
+  amp.gain.setValueAtTime(0.0001, startTime);
+  amp.gain.linearRampToValueAtTime(gain, startTime + 0.02);
+  amp.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+  osc.connect(amp);
+  amp.connect(soundState.master);
+  osc.start(startTime);
+  osc.stop(startTime + duration + 0.03);
+}
+
+function playClickSound() {
+  playTone({ frequency: 720, duration: 0.08, type: "triangle", gain: 0.1 });
+}
+
+function playCorrectSound() {
+  playTone({ frequency: 523.25, duration: 0.14, type: "sine", gain: 0.12 });
+  playTone({ frequency: 659.25, duration: 0.14, type: "sine", gain: 0.11, startOffset: 0.12 });
+  playTone({ frequency: 783.99, duration: 0.18, type: "sine", gain: 0.11, startOffset: 0.24 });
+}
+
+function playWrongSound() {
+  playTone({ frequency: 392, duration: 0.16, type: "sine", gain: 0.1 });
+  playTone({ frequency: 330, duration: 0.2, type: "sine", gain: 0.09, startOffset: 0.14 });
+}
 
 const MOCK_QUESTIONS = [
   {
@@ -550,6 +598,55 @@ ${pages}
       </div>
     </main>
     <script>
+      const soundState = { ctx: null, master: null };
+
+      function ensureAudio() {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return null;
+        if (!soundState.ctx) {
+          soundState.ctx = new AudioContext();
+          soundState.master = soundState.ctx.createGain();
+          soundState.master.gain.value = 0.18;
+          soundState.master.connect(soundState.ctx.destination);
+        }
+        if (soundState.ctx.state === "suspended") {
+          soundState.ctx.resume();
+        }
+        return soundState.ctx;
+      }
+
+      function playTone({ frequency, duration, type = "sine", gain = 0.12, startOffset = 0 }) {
+        const ctx = ensureAudio();
+        if (!ctx) return;
+        const startTime = ctx.currentTime + startOffset;
+        const osc = ctx.createOscillator();
+        const amp = ctx.createGain();
+        osc.type = type;
+        osc.frequency.value = frequency;
+        amp.gain.setValueAtTime(0.0001, startTime);
+        amp.gain.linearRampToValueAtTime(gain, startTime + 0.02);
+        amp.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+        osc.connect(amp);
+        amp.connect(soundState.master);
+        osc.start(startTime);
+        osc.stop(startTime + duration + 0.03);
+      }
+
+      function playClickSound() {
+        playTone({ frequency: 720, duration: 0.08, type: "triangle", gain: 0.1 });
+      }
+
+      function playCorrectSound() {
+        playTone({ frequency: 523.25, duration: 0.14, type: "sine", gain: 0.12 });
+        playTone({ frequency: 659.25, duration: 0.14, type: "sine", gain: 0.11, startOffset: 0.12 });
+        playTone({ frequency: 783.99, duration: 0.18, type: "sine", gain: 0.11, startOffset: 0.24 });
+      }
+
+      function playWrongSound() {
+        playTone({ frequency: 392, duration: 0.16, type: "sine", gain: 0.1 });
+        playTone({ frequency: 330, duration: 0.2, type: "sine", gain: 0.09, startOffset: 0.14 });
+      }
+
       const pages = Array.from(document.querySelectorAll(".quiz-page"));
       const progress = document.getElementById("quiz-progress");
       const prevBtn = document.getElementById("prev-btn");
@@ -575,6 +672,17 @@ ${pages}
         });
         const isCorrect = answer.dataset.correct === "true";
         answer.classList.add(isCorrect ? "is-correct" : "is-wrong");
+        if (isCorrect) {
+          playCorrectSound();
+        } else {
+          playWrongSound();
+        }
+      });
+
+      document.addEventListener("click", (event) => {
+        const button = event.target.closest("button");
+        if (!button) return;
+        playClickSound();
       });
 
       prevBtn.addEventListener("click", () => {
@@ -731,10 +839,12 @@ function handleAnswer(answerIndex) {
     gameState.streak += 1;
     gameState.bestStreak = Math.max(gameState.bestStreak, gameState.streak);
     gameMessage.textContent = `Correct! +${baseScore + bonus}`;
+    playCorrectSound();
   } else {
     gameState.lives -= 1;
     gameState.streak = 0;
     gameMessage.textContent = answer ? "Oops! Try the next one." : "Time's up! Keep going.";
+    playWrongSound();
   }
 
   const buttons = Array.from(gameAnswers.querySelectorAll(".quiz-game-answer"));
@@ -820,6 +930,12 @@ function downloadHtml() {
 form.addEventListener("submit", (event) => {
   event.preventDefault();
   generateQuizHtml();
+});
+
+document.addEventListener("click", (event) => {
+  const button = event.target.closest("button");
+  if (!button) return;
+  playClickSound();
 });
 
 copyBtn.addEventListener("click", copyToClipboard);

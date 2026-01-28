@@ -7,6 +7,43 @@ const helloOutput = document.getElementById("hello-output");
 const counterValue = document.getElementById("counter-value");
 const counterBtn = document.getElementById("counter-btn");
 let count = 0;
+const soundState = { ctx: null, master: null };
+
+function ensureAudio() {
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContext) return null;
+  if (!soundState.ctx) {
+    soundState.ctx = new AudioContext();
+    soundState.master = soundState.ctx.createGain();
+    soundState.master.gain.value = 0.18;
+    soundState.master.connect(soundState.ctx.destination);
+  }
+  if (soundState.ctx.state === "suspended") {
+    soundState.ctx.resume();
+  }
+  return soundState.ctx;
+}
+
+function playTone({ frequency, duration, type = "sine", gain = 0.12 }) {
+  const ctx = ensureAudio();
+  if (!ctx) return;
+  const osc = ctx.createOscillator();
+  const amp = ctx.createGain();
+  const now = ctx.currentTime;
+  osc.type = type;
+  osc.frequency.value = frequency;
+  amp.gain.setValueAtTime(0, now);
+  amp.gain.linearRampToValueAtTime(gain, now + 0.01);
+  amp.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+  osc.connect(amp);
+  amp.connect(soundState.master);
+  osc.start(now);
+  osc.stop(now + duration + 0.02);
+}
+
+function playClickSound() {
+  playTone({ frequency: 720, duration: 0.08, type: "triangle", gain: 0.1 });
+}
 
 function setTheme(theme) {
   if (!themes.includes(theme)) return;
@@ -40,6 +77,12 @@ cards.forEach((card) => {
 
 const saved = localStorage.getItem("pwa-theme");
 if (saved) setTheme(saved);
+
+document.addEventListener("click", (event) => {
+  const button = event.target.closest("button");
+  if (!button) return;
+  playClickSound();
+});
 
 function updateStatus() {
   statusEl.textContent = navigator.onLine ? "Online" : "Offline (cached)";
